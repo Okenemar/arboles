@@ -1,10 +1,9 @@
 package sql;
 import java.util.Scanner;
 
-import com.mysql.cj.x.protobuf.MysqlxExpr.Identifier;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -82,67 +81,70 @@ public class GestorArboles {
 
 	private static void modificarArbol() throws SQLException{
 		Connection con = DriverManager.getConnection("jdbc:mysql://"+HOST+"/" + BBDD, USERNAME_STRING, PASSWORD_STRING );//abrir conexion			
-		Statement st = con.createStatement();//crear el ejecutor de sentencias
 		Scanner scan = new Scanner(System.in);
+		
+		PreparedStatement preparedSt = con.prepareStatement("UPDATE arboles SET nombre_comun=?, nombre_cientifico=?, habitat=?, altura=?, origen=? WHERE id=? ");
 		
 		System.out.println("Introduce la id del arbol que quieres modificar");
 		int id = Integer.parseInt(scan.nextLine());
+		preparedSt.setInt(6, id);
 		System.out.println("Introduce el nuevo nombre comun del arbol");
-		String nuevoNombreComun = scan.nextLine();
+		String NombreComun = scan.nextLine();
+		preparedSt.setString(1, NombreComun);
 		System.out.println("Introduce el nuevo nombre cientifico del arbol");
-		String nuevoNombreCientifico = scan.nextLine();
+		String NombreCientifico = scan.nextLine();
+		preparedSt.setString(2, NombreCientifico);
 		System.out.println("Introduce el nuevo habitat del arbol");
-		String nuevoHabitatArbol = scan.nextLine();
+		String HabitatArbol = scan.nextLine();
+		preparedSt.setString(3, HabitatArbol);
 		System.out.println("Introduce la nueva altura del arbol");
-		int nuevaAlturaArbol = Integer.parseInt(scan.nextLine());
+		int AlturaArbol = Integer.parseInt(scan.nextLine());
+		preparedSt.setInt(4, AlturaArbol);
 		System.out.println("Introduce el nuevo origen del arbol");
-		String nuevoOrigenArbol = scan.nextLine();
+		String OrigenArbol = scan.nextLine();
+		preparedSt.setString(5, OrigenArbol);
 
-		
-		String sentenciaUpadate = "UPDATE arboles SET nombre_comun='"+nuevoNombreComun+"' WHERE id = "+id+";";
-		 st.executeUpdate(sentenciaUpadate);
-		 sentenciaUpadate = "UPDATE arboles SET nombre_cientifico='"+nuevoNombreCientifico+"' WHERE id = "+id+";";
-		 st.executeUpdate(sentenciaUpadate);
-		 sentenciaUpadate = "UPDATE arboles SET habitat='"+nuevoHabitatArbol+"' WHERE id = "+id+";";
-		 st.executeUpdate(sentenciaUpadate);
-		 sentenciaUpadate = "UPDATE arboles SET altura='"+nuevaAlturaArbol+"' WHERE id = "+id+";";
-		 st.executeUpdate(sentenciaUpadate);
-		 sentenciaUpadate = "UPDATE arboles SET origen='"+nuevoOrigenArbol+"' WHERE id = "+id+";";
-		 st.executeUpdate(sentenciaUpadate);
+		preparedSt.execute();
 		
 	}
 
 	private static void eliminarArbol() throws SQLException {
 		Connection con = DriverManager.getConnection("jdbc:mysql://"+HOST+"/" + BBDD, USERNAME_STRING, PASSWORD_STRING );//abrir conexion			
-		Statement st = con.createStatement();//crear el ejecutor de sentencias
 		Scanner scan = new Scanner(System.in);
+		
+		PreparedStatement preparedSt = con.prepareStatement("DELETE FROM arboles WHERE id = (?)");
 		
 		System.out.println("Introduce el id del arbol que quieres eliminar");
 		int id = Integer.parseInt(scan.nextLine());
-		String sentenciaDelete = "DELETE FROM arboles WHERE id = ('"+id+"')";
-		st.execute(sentenciaDelete);
+		preparedSt.setInt(1, id);
+		preparedSt.execute();
 
 		
 	}
 
 	private static void insertarArbol() throws SQLException {
 		Connection con = DriverManager.getConnection("jdbc:mysql://"+HOST+"/" + BBDD, USERNAME_STRING, PASSWORD_STRING );//abrir conexion			
-		Statement st = con.createStatement();//crear el ejecutor de sentencias
 		Scanner scan = new Scanner(System.in);
 		
+		PreparedStatement preparedSt = con.prepareStatement("INSERT INTO animales (nombre) VALUES (null, ?, ?, ?, ?, ?)");
+
 		System.out.println("Introduce el nombre comun del arbol");
 		String nombreComun = scan.nextLine();
+		preparedSt.setString(1, nombreComun);
 		System.out.println("Introduce el nombre cientifico del arbol");
 		String nombreCientifico = scan.nextLine();
+		preparedSt.setString(2, nombreCientifico);
 		System.out.println("Introduce el habitat del arbol");
 		String habitatArbol = scan.nextLine();
+		preparedSt.setString(3, habitatArbol);
 		System.out.println("Introduce la altura del arbol");
 		int alturaArbol = Integer.parseInt(scan.nextLine());
+		preparedSt.setInt(4, alturaArbol);
 		System.out.println("Introduce el origen del arbol");
 		String origenArbol = scan.nextLine();
+		preparedSt.setString(5, origenArbol);
 		
-		String sentenciaInsert = "INSERT INTO arboles(nombre_comun, nombre_cientifico, habitat, altura, origen) VALUES ('"+nombreComun+"' , '"+nombreCientifico+"' , '"+habitatArbol+"' , '"+alturaArbol+"' , '"+origenArbol+"')";
-		st.execute(sentenciaInsert);
+		preparedSt.execute();
 	}
 }
 	
