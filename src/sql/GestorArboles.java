@@ -43,15 +43,15 @@ public class GestorArboles {
 			switch (opcion_menu) {
 			case INSERTAR_ARBOL:
 				insertarArbol();
-				System.out.println("primera opcion seleccionada\n");
+				System.out.println("Has creado un arbol\n");
 				break;
 			case ELIMINAR_ARBOL:
 				eliminarArbol();
-				System.out.println("segunda opcion seleccionada\n");
+				System.out.println("Has eliminado el arbol\n");
 				break;
 			case MODIFICAR_INFORMACION_DEL_ARBOL:
 				modificarArbol();
-				System.out.println("tercera opcion seleccionada\n");
+				System.out.println("El arbol ha sido modificado\n");
 				break;
 			case VISUALIZAR_ARBOLES:
 				visualiarArboles();
