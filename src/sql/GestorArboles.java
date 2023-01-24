@@ -101,23 +101,17 @@ public class GestorArboles {
 		PreparedStatement preparedSt = con.prepareStatement("UPDATE arboles SET nombre_comun=?, nombre_cientifico=?, habitat=?, altura=?, origen=? WHERE id=? ");
 		
 		System.out.println("Introduce la id del arbol que quieres modificar");
-		int id = Integer.parseInt(scan.nextLine());
-		arbol.setId(id);
+		arbol.setId(Integer.parseInt(scan.nextLine()));
 		System.out.println("Introduce el nuevo nombre comun del arbol");
-		String NombreComun = scan.nextLine();
-		arbol.setNombreComun(NombreComun);
+		arbol.setNombreComun(scan.nextLine());
 		System.out.println("Introduce el nuevo nombre cientifico del arbol");
-		String NombreCientifico = scan.nextLine();
-		arbol.setNombreCientifico(NombreCientifico);
+		arbol.setNombreCientifico(scan.nextLine());
 		System.out.println("Introduce el nuevo habitat del arbol");
-		String HabitatArbol = scan.nextLine();
-		arbol.setHabitat(HabitatArbol);
+		arbol.setHabitat(scan.nextLine());
 		System.out.println("Introduce la nueva altura del arbol");
-		int AlturaArbol = Integer.parseInt(scan.nextLine());
-		arbol.setAltura(AlturaArbol);
+		arbol.setAltura(Integer.parseInt(scan.nextLine()));
 		System.out.println("Introduce el nuevo origen del arbol");
-		String OrigenArbol = scan.nextLine();
-		arbol.setOrigen(OrigenArbol);
+		arbol.setOrigen(scan.nextLine());
 				
 		preparedSt.setString(1, arbol.getNombreComun());
 		preparedSt.setString(2, arbol.getNombreCientifico());
@@ -153,20 +147,15 @@ public class GestorArboles {
 		Arbol arbol = new Arbol();
 		
 		System.out.println("Introduce el nombre comun del arbol");
-		String nombreComun = scan.nextLine();
-		arbol.setNombreComun(nombreComun);
+		arbol.setNombreComun(scan.nextLine());
 		System.out.println("Introduce el nombre cientifico del arbol");
-		String nombreCientifico = scan.nextLine();
-		arbol.setNombreCientifico(nombreCientifico);
+		arbol.setNombreCientifico(scan.nextLine());
 		System.out.println("Introduce el habitat del arbol");
-		String habitatArbol = scan.nextLine();
-		arbol.setHabitat(habitatArbol);
+		arbol.setHabitat(scan.nextLine());
 		System.out.println("Introduce la altura del arbol");
-		int alturaArbol = Integer.parseInt(scan.nextLine());
-		arbol.setAltura(alturaArbol);
+		arbol.setAltura(Integer.parseInt(scan.nextLine()));
 		System.out.println("Introduce el origen del arbol");
-		String origenArbol = scan.nextLine();
-		arbol.setOrigen(origenArbol);
+		arbol.setOrigen(scan.nextLine());
 		
 		PreparedStatement preparedSt = con.prepareStatement("INSERT INTO arboles VALUES (null, ?,?,?,?,?)");
 		preparedSt.setString(1, arbol.getNombreComun());
