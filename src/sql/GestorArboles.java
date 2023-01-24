@@ -1,4 +1,5 @@
 package sql;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import java.sql.Connection;
@@ -72,51 +73,75 @@ public class GestorArboles {
 
 		String sentenciaSelect = "SELECT * FROM arboles";
 		ResultSet resultado = st.executeQuery(sentenciaSelect);
+		ArrayList<Arbol> arboles = new ArrayList<Arbol>();
 		while(resultado.next()) {
-			System.out.println(resultado.getInt(1) + " - " + resultado.getString(2) + " - " + resultado.getString(3)+ " - " + resultado.getString(4)+ " - " + resultado.getInt(5)+ " - " + resultado.getString(6));
+			Arbol arbol = new Arbol();
+			arbol.setId(resultado.getInt("id"));
+			arbol.setNombreComun(resultado.getString("nombre_comun"));
+			arbol.setNombreCientifico(resultado.getString("nombre_cientifico"));
+			arbol.setHabitat(resultado.getString("habitat"));
+			arbol.setAltura(resultado.getInt("altura"));
+			arbol.setOrigen(resultado.getString("origen"));
+			
+			arboles.add(arbol);
 		}
-
-		
+			for (Arbol arbol : arboles) {
+				System.out.println(arbol);
+				
+			}		
 	}
+		
+	
 
 	private static void modificarArbol() throws SQLException{
 		Connection con = DriverManager.getConnection("jdbc:mysql://"+HOST+"/" + BBDD, USERNAME_STRING, PASSWORD_STRING );//abrir conexion			
 		Scanner scan = new Scanner(System.in);
-		
+		Arbol arbol = new Arbol();
+
 		PreparedStatement preparedSt = con.prepareStatement("UPDATE arboles SET nombre_comun=?, nombre_cientifico=?, habitat=?, altura=?, origen=? WHERE id=? ");
 		
 		System.out.println("Introduce la id del arbol que quieres modificar");
 		int id = Integer.parseInt(scan.nextLine());
-		preparedSt.setInt(6, id);
+		arbol.setId(id);
 		System.out.println("Introduce el nuevo nombre comun del arbol");
 		String NombreComun = scan.nextLine();
-		preparedSt.setString(1, NombreComun);
+		arbol.setNombreComun(NombreComun);
 		System.out.println("Introduce el nuevo nombre cientifico del arbol");
 		String NombreCientifico = scan.nextLine();
-		preparedSt.setString(2, NombreCientifico);
+		arbol.setNombreCientifico(NombreCientifico);
 		System.out.println("Introduce el nuevo habitat del arbol");
 		String HabitatArbol = scan.nextLine();
-		preparedSt.setString(3, HabitatArbol);
+		arbol.setHabitat(HabitatArbol);
 		System.out.println("Introduce la nueva altura del arbol");
 		int AlturaArbol = Integer.parseInt(scan.nextLine());
-		preparedSt.setInt(4, AlturaArbol);
+		arbol.setAltura(AlturaArbol);
 		System.out.println("Introduce el nuevo origen del arbol");
 		String OrigenArbol = scan.nextLine();
-		preparedSt.setString(5, OrigenArbol);
-
-		preparedSt.execute();
+		arbol.setOrigen(OrigenArbol);
+				
+		preparedSt.setString(1, arbol.getNombreComun());
+		preparedSt.setString(2, arbol.getNombreCientifico());
+		preparedSt.setString(3, arbol.getHabitat());
+		preparedSt.setInt(4, arbol.getAltura());
+		preparedSt.setString(5, arbol.getOrigen());
+		preparedSt.setInt(6, arbol.getId());
 		
+		preparedSt.execute();
+				
 	}
 
 	private static void eliminarArbol() throws SQLException {
 		Connection con = DriverManager.getConnection("jdbc:mysql://"+HOST+"/" + BBDD, USERNAME_STRING, PASSWORD_STRING );//abrir conexion			
 		Scanner scan = new Scanner(System.in);
-		
+		Arbol arbol = new Arbol();
+
 		PreparedStatement preparedSt = con.prepareStatement("DELETE FROM arboles WHERE id = (?)");
 		
 		System.out.println("Introduce el id del arbol que quieres eliminar");
 		int id = Integer.parseInt(scan.nextLine());
-		preparedSt.setInt(1, id);
+		arbol.setId(id);
+		
+		preparedSt.setInt(1, arbol.getId());
 		preparedSt.execute();
 
 		
@@ -125,26 +150,34 @@ public class GestorArboles {
 	private static void insertarArbol() throws SQLException {
 		Connection con = DriverManager.getConnection("jdbc:mysql://"+HOST+"/" + BBDD, USERNAME_STRING, PASSWORD_STRING );//abrir conexion			
 		Scanner scan = new Scanner(System.in);
+		Arbol arbol = new Arbol();
 		
-		PreparedStatement preparedSt = con.prepareStatement("INSERT INTO animales (nombre) VALUES (null, ?, ?, ?, ?, ?)");
-
 		System.out.println("Introduce el nombre comun del arbol");
 		String nombreComun = scan.nextLine();
-		preparedSt.setString(1, nombreComun);
+		arbol.setNombreComun(nombreComun);
 		System.out.println("Introduce el nombre cientifico del arbol");
 		String nombreCientifico = scan.nextLine();
-		preparedSt.setString(2, nombreCientifico);
+		arbol.setNombreCientifico(nombreCientifico);
 		System.out.println("Introduce el habitat del arbol");
 		String habitatArbol = scan.nextLine();
-		preparedSt.setString(3, habitatArbol);
+		arbol.setHabitat(habitatArbol);
 		System.out.println("Introduce la altura del arbol");
 		int alturaArbol = Integer.parseInt(scan.nextLine());
-		preparedSt.setInt(4, alturaArbol);
+		arbol.setAltura(alturaArbol);
 		System.out.println("Introduce el origen del arbol");
 		String origenArbol = scan.nextLine();
-		preparedSt.setString(5, origenArbol);
+		arbol.setOrigen(origenArbol);
+		
+		PreparedStatement preparedSt = con.prepareStatement("INSERT INTO arboles VALUES (null, ?,?,?,?,?)");
+		preparedSt.setString(1, arbol.getNombreComun());
+		preparedSt.setString(2, arbol.getNombreCientifico());
+		preparedSt.setString(3, arbol.getHabitat());
+		preparedSt.setInt(4, arbol.getAltura());
+		preparedSt.setString(5, arbol.getOrigen());
 		
 		preparedSt.execute();
+		
+
 	}
 }
 	

@@ -17,6 +17,9 @@ public class Arbol {
 		this.altura = altura;
 		this.origen = origen;
 	}
+	public Arbol() {
+		
+	}
 	public int getId() {
 		return id;
 	}
@@ -53,5 +56,11 @@ public class Arbol {
 	public void setOrigen(String origen) {
 		this.origen = origen;
 	}
+	@Override
+	public String toString() {
+		return "Arbol [id=" + id + ", nombreComun=" + nombreComun + ", nombreCientifico=" + nombreCientifico
+				+ ", habitat=" + habitat + ", altura=" + altura + ", origen=" + origen + "]";
+	}
+	
 	
 }
